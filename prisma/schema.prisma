@@ -21,4 +21,11 @@ model User {
   username String @id
   email    String @unique
   password String
+  blog     Blog[]
+}
+
+model Blog {
+  id          String @id @unique
+  authorEmail String
+  author      User   @relation(fields: [authorEmail], references: [email])
 }

@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(json());
 app.use("/auth", authRouter);
 app.get("/", verifyToken, (req, res) => {
-  res.send("hello");
+  res.send({});
 });
 app.use(errorHandeler);
 app.listen(PORT, () => console.log(`Listening on ${PORT} ⚡`));

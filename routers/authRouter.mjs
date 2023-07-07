@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser, loginUser } from "../services/userService.mjs";
+import { createUser, loginUser } from "../services/authService.mjs";
 import jwt from "jsonwebtoken";
 import { loginScema, signUpSchema } from "../utils/zodSchemas.mjs";
 const authRouter = express.Router();
