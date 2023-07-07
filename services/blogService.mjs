@@ -3,10 +3,9 @@ import { GeneralError } from "../utils/generalError.mjs";
 import fs from "fs";
 import { v4 as uuid } from "uuid";
 import { getStorage } from "firebase-admin/storage";
+import { bucket } from "../server.mjs";
 
 export async function saveBlog({ username, title, blogContent }) {
-  const bucket = getStorage().bucket();
-
   const user = await prisma.user.findUnique({
     where: {
       username,
@@ -44,4 +43,13 @@ export async function getBlog({ fileId }) {
   if (!blog) {
     throw new GeneralError(404, "Blog not found");
   }
+
+  const file = await bucket.file(fileId).download({ destination: fileId });
+  const blogContent = fs.readFileSync(fileId);
+  console.log(blogContent);
+  return {
+    blogContent: blogContent.toString(),
+    title: blog.title,
+    authorName: blog.authorName,
+  };
 }

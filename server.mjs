@@ -21,6 +21,8 @@ initializeApp({
   storageBucket: "blogdom-a5a8a.appspot.com",
 });
 
+export const bucket = getStorage().bucket();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
