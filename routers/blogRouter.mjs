@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyToken } from "../middlewares/verifyToken.mjs";
-import { getBlog, saveBlog } from "../services/blogService.mjs";
+import { getAllBlogs, getBlog, saveBlog } from "../services/blogService.mjs";
 export const blogRouter = express.Router();
 
 blogRouter.use(verifyToken);
@@ -11,6 +11,15 @@ blogRouter.post("/saveblog", async (req, res, next) => {
     const { username } = req.user;
     await saveBlog({ username, blogContent, title });
     res.status(201).send({ messsage: "Succefully uploaded" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+blogRouter.get("/all", async (req, res, next) => {
+  try {
+    const allBlogs = await getAllBlogs();
+    res.status(200).send({ allBlogs });
   } catch (error) {
     next(error);
   }

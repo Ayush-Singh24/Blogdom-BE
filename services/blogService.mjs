@@ -46,10 +46,19 @@ export async function getBlog({ fileId }) {
 
   const file = await bucket.file(fileId).download({ destination: fileId });
   const blogContent = fs.readFileSync(fileId);
-  console.log(blogContent);
   return {
     blogContent: blogContent.toString(),
     title: blog.title,
     authorName: blog.authorName,
   };
+}
+
+export async function getAllBlogs() {
+  const allBlogs = await prisma.blog.findMany();
+
+  if (!allBlogs) {
+    throw new GeneralError(404, "Not found");
+  }
+
+  return allBlogs;
 }
