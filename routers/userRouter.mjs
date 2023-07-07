@@ -1,12 +1,12 @@
 import express from "express";
 import { createUser, loginUser } from "../services/userService.mjs";
-import { GeneralError } from "../utils/generalError.mjs";
-
+import jwt from "jsonwebtoken";
+import { loginScema, signUpSchema } from "../utils/zodSchemas.mjs";
 const userRouter = express.Router();
 
 userRouter.post("/signup", async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password } = signUpSchema.parse(req.body);
     await createUser({ username, email, password });
     res.status(201).send({ message: "User successfully signed-up" });
   } catch (error) {
@@ -16,9 +16,15 @@ userRouter.post("/signup", async (req, res, next) => {
 
 userRouter.post("/login", async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    await loginUser({ username, password });
-    res.status(200).send({ message: "Logged in" });
+    const { username, password } = loginScema.parse(req.body);
+    const name = await loginUser({ username, password });
+    const token = jwt.sign({ username: name }, process.env.PRIVATE_KEY, {
+      expiresIn: "5d",
+    });
+    res
+      .cookie("token", token, { httpOnly: true, maxAge: 5 * 24 * 3600 * 1000 })
+      .status(200)
+      .send({ message: "Logged in" });
   } catch (error) {
     next(error);
   }
