@@ -1,7 +1,7 @@
 import express from "express";
 import { createUser, loginUser } from "../services/authService.mjs";
 import jwt from "jsonwebtoken";
-import { loginScema, signUpSchema } from "../utils/zodSchemas.mjs";
+import { loginSchema, signUpSchema } from "../utils/zodSchemas.mjs";
 const authRouter = express.Router();
 
 authRouter.post("/signup", async (req, res, next) => {
@@ -16,7 +16,7 @@ authRouter.post("/signup", async (req, res, next) => {
 
 authRouter.post("/login", async (req, res, next) => {
   try {
-    const { username, password } = loginScema.parse(req.body);
+    const { username, password } = loginSchema.parse(req.body);
     const name = await loginUser({ username, password });
     const token = jwt.sign({ username: name }, process.env.PRIVATE_KEY, {
       expiresIn: "5d",

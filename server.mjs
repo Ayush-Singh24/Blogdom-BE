@@ -9,6 +9,18 @@ import { verifyToken } from "./middlewares/verifyToken.mjs";
 export const prisma = new PrismaClient();
 config();
 
+import multer from "multer";
+import { initializeApp, cert } from "firebase-admin/app";
+import { getStorage } from "firebase-admin/storage";
+import fs from "fs";
+import { blogRouter } from "./routers/blogRouter.mjs";
+const serviceAccount = JSON.parse(fs.readFileSync("./serviceKey.json"));
+
+initializeApp({
+  credential: cert(serviceAccount),
+  storageBucket: "blogdom-a5a8a.appspot.com",
+});
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -31,6 +43,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(json());
 app.use("/auth", authRouter);
+app.use("/blog", blogRouter);
 app.get("/", verifyToken, (req, res) => {
   res.send({});
 });

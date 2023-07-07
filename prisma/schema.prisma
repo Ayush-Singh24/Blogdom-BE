@@ -25,7 +25,8 @@ model User {
 }
 
 model Blog {
-  id          String @id @unique
-  authorEmail String
-  author      User   @relation(fields: [authorEmail], references: [email])
+  fileId     String @id
+  authorName String
+  title      String
+  author     User   @relation(fields: [authorName], references: [username])
 }
