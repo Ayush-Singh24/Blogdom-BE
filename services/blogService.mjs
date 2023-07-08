@@ -4,6 +4,7 @@ import fs, { createReadStream } from "fs";
 import { v4 as uuid } from "uuid";
 import { getStorage } from "firebase-admin/storage";
 import { bucket } from "../server.mjs";
+import { __dirname } from "../dir.mjs";
 
 export async function saveBlog({ username, title, blogContent }) {
   const user = await prisma.user.findUnique({
@@ -54,6 +55,13 @@ export async function getBlog({ fileId }) {
   //   title: blog.title,
   //   authorName: blog.authorName,
   // };
+
+  setTimeout(() => {
+    fs.unlink(__dirname + `/${fileId}`, () => {
+      console.log("File deleted");
+    });
+    // console.log("../" + __dirname + "/" + fileId);
+  }, 5 * 1000);
 
   return {
     blogContent: blogContent.toString(),
