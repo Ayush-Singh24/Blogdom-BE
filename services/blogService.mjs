@@ -1,6 +1,6 @@
 import { prisma } from "../server.mjs";
 import { GeneralError } from "../utils/generalError.mjs";
-import fs from "fs";
+import fs, { createReadStream } from "fs";
 import { v4 as uuid } from "uuid";
 import { getStorage } from "firebase-admin/storage";
 import { bucket } from "../server.mjs";
@@ -44,8 +44,16 @@ export async function getBlog({ fileId }) {
     throw new GeneralError(404, "Blog not found");
   }
 
-  const file = await bucket.file(fileId).download({ destination: fileId });
+  // const file = await bucket.file(fileId).download({ destination: fileId });
+  // const file = await bucket.file(fileId).createReadStream();
   const blogContent = fs.readFileSync(fileId);
+  // const readBlogStream = createReadStream(fileId);
+  // return {
+  //   readBlogStream,
+  //   title: blog.title,
+  //   authorName: blog.authorName,
+  // };
+
   return {
     blogContent: blogContent.toString(),
     title: blog.title,
