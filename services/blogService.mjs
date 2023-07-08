@@ -44,8 +44,9 @@ export async function getBlog({ fileId }) {
     throw new GeneralError(404, "Blog not found");
   }
 
-  // const file = await bucket.file(fileId).download({ destination: fileId });
-  // const file = await bucket.file(fileId).createReadStream();
+  const file = await bucket.file(fileId).download({ destination: fileId });
+  // const file = bucket.file(fileId).createReadStream();
+  // .pipe(fs.createWriteStream(fileId));
   const blogContent = fs.readFileSync(fileId);
   // const readBlogStream = createReadStream(fileId);
   // return {
