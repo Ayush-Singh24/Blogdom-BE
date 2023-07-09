@@ -1,6 +1,11 @@
 import express from "express";
 import { verifyToken } from "../middlewares/verifyToken.mjs";
-import { getAllBlogs, getBlog, saveBlog } from "../services/blogService.mjs";
+import {
+  getAllBlogs,
+  getBlog,
+  getUserBlogs,
+  saveBlog,
+} from "../services/blogService.mjs";
 export const blogRouter = express.Router();
 
 blogRouter.use(verifyToken);
@@ -20,6 +25,16 @@ blogRouter.get("/all", async (req, res, next) => {
   try {
     const allBlogs = await getAllBlogs();
     res.status(200).send({ allBlogs });
+  } catch (error) {
+    next(error);
+  }
+});
+
+blogRouter.get("/username", async (req, res, next) => {
+  try {
+    const { username } = req.user;
+    const userBlogs = await getUserBlogs({ username });
+    res.status(200).send({ userBlogs });
   } catch (error) {
     next(error);
   }

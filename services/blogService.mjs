@@ -78,3 +78,20 @@ export async function getAllBlogs() {
 
   return allBlogs;
 }
+
+export async function getUserBlogs({ username }) {
+  const user = await prisma.user.findFirst({
+    where: {
+      username,
+    },
+    include: {
+      blog: true,
+    },
+  });
+
+  if (!user) {
+    throw new GeneralError(401, "Not Authorized");
+  }
+
+  return user.blog;
+}
