@@ -34,3 +34,13 @@ blogRouter.get("/:fileId", async (req, res, next) => {
     next(error);
   }
 });
+
+// blogRouter.get("/:fileId", async (req, res, next) => {
+//   try {
+//     const { fileId } = req.params;
+//     const { readBlogStream } = await getBlog({ fileId });
+//     readBlogStream.pipe(res);
+//   } catch (error) {
+//     next(error);
+//   }
+// });

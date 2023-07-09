@@ -46,8 +46,7 @@ export async function getBlog({ fileId }) {
   }
 
   const file = await bucket.file(fileId).download({ destination: fileId });
-  // const file = bucket.file(fileId).createReadStream();
-  // .pipe(fs.createWriteStream(fileId));
+  // const file = bucket.file(fileId).createReadStream().pipe(fs.createWriteStream(fileId));
   const blogContent = fs.readFileSync(fileId);
   // const readBlogStream = createReadStream(fileId);
   // return {
