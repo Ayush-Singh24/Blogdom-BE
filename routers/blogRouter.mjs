@@ -10,7 +10,7 @@ blogRouter.post("/saveblog", async (req, res, next) => {
     const { title, blogContent } = req.body;
     const { username } = req.user;
     await saveBlog({ username, blogContent, title });
-    res.status(201).send({ messsage: "Succefully uploaded" });
+    res.status(201).send({ message: "Succefully uploaded" });
   } catch (error) {
     next(error);
   }
