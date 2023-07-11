@@ -34,7 +34,7 @@ blogRouter.get("/username", async (req, res, next) => {
   try {
     const { username } = req.user;
     const userBlogs = await getUserBlogs({ username });
-    res.status(200).send({ userBlogs });
+    res.status(200).send({ username, userBlogs });
   } catch (error) {
     next(error);
   }
