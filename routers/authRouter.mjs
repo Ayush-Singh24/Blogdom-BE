@@ -30,4 +30,12 @@ authRouter.post("/login", async (req, res, next) => {
   }
 });
 
+authRouter.post("/logout", async (req, res, next) => {
+  try {
+    res.cookie("token", null).status(200).send({ message: "Logged Out" });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default authRouter;
