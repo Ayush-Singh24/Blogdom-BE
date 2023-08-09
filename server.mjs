@@ -9,7 +9,6 @@ import { verifyToken } from "./middlewares/verifyToken.mjs";
 export const prisma = new PrismaClient();
 config();
 
-import multer from "multer";
 import { initializeApp, cert } from "firebase-admin/app";
 import { getStorage } from "firebase-admin/storage";
 import fs from "fs";

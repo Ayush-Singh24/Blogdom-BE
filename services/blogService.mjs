@@ -1,8 +1,7 @@
 import { prisma } from "../server.mjs";
 import { GeneralError } from "../utils/generalError.mjs";
-import fs, { createReadStream } from "fs";
+import fs from "fs";
 import { v4 as uuid } from "uuid";
-import { getStorage } from "firebase-admin/storage";
 import { bucket } from "../server.mjs";
 import { __dirname } from "../dir.mjs";
 
